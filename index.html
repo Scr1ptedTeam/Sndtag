@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Произошла неизвестная ошибка</title>
+    <style>
+        body {
+            background-color: #202124;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Выравнивание по центру */
+            height: 100vh;
+            text-align: center;
+            overflow: hidden;
+            background-image: url('assets/background.jpg'); /* Замените на ваш файл фона */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .logo {
+            width: 100px;
+            height: auto;
+        }
+
+        .error-icon {
+            font-size: 48px;
+            color: #e8eaed;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #e8eaed;
+            margin: 0;
+        }
+
+        p {
+            color: #9aa0a6;
+            margin: 0;
+        }
+
+
+        /* Стили для полноэкранной кнопки */
+        #retryButton {
+            position: absolute; /* Позиционирование относительно родителя */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: transparent; /* Прозрачный фон */
+            border: none;
+            cursor: pointer;
+        }
+
+        .fake-mute-button {
+            background-color: #303134;
+            color: #e8eaed;
+            padding: 20px 36px;
+            font-size: 18px;
+            border: none;
+            border-radius: 4px;
+            cursor: not-allowed;
+            transition: transform .2s ease;
+        }
+
+        .fake-mute-button:active {
+            transform: scale(.9);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container" id="errorMessage">
+        <div class="error-icon">⚠</div>
+        <h1>Произошла неизвестная ошибка</h1>
+    </div>
+    <div class="container hidden" id="soundPlaying">
+        <img alt="Логотип бренда" src="assets/logo.png" class="logo">
+        <button class="fake-mute-button">🔇 Заглушить</button>
+    </div>
+    <audio id="funSound" loop src="assets/ston.mp3"></audio>
+    <button id="retryButton"></button> <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const errorMessage = document.getElementById('errorMessage');
+            const retryButton = document.getElementById('retryButton');
+            const soundPlaying = document.getElementById('soundPlaying');
+            const sound = document.getElementById('funSound');
+
+            function playSound() {
+                sound.volume = 1.0;
+                sound.play()
+                    .then(() => {
+                        errorMessage.style.display = 'none';
+                        soundPlaying.style.display = 'flex';
+                    })
+                    .catch((e) => {
+                        console.error('Ошибка воспроизведения звука:', e);
+                        alert('Попробуйте снова.');
+                    });
+            }
+
+            retryButton.addEventListener('click', playSound);
+
+        });
+    </script>
+</body>
+</html>
